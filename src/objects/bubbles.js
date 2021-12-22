@@ -18,18 +18,18 @@ function MainSphere({ material }) {
   function Instances({ material }) {
     // we use this array ref to store the spheres after creating them
     const [sphereRefs] = useState(() => [])
-    const [lightsRefs] = useState(() => [])
     // we use this array to initialize the background spheres
     const initialPositions = [
-      [-4, 30, -12],
-      [-10, 32, -4],
-      [-11, 12, -23],
-      [-16, 6, -10],
-      [12, 4, -3],
-      [13, 14, -12],
-      [14, 8, -23],
-      [8, 20, -20],
-      [5, 26, -10],
+      [-4, 30, 0],
+      [-2, 32, -4],
+      [-1, 12, 2],
+      [1, 6, -1],
+      [3, 4, -3],
+      [2, 14, 0],
+      [4, 8, -2],
+      [0, 20, -2],
+      [1, 26, -1],
+      [0, 0, -3],
     ]
 
 
@@ -37,8 +37,8 @@ function MainSphere({ material }) {
     useFrame(() => {
       // animate each sphere in the array
       sphereRefs.forEach((el) => {
-        el.position.y += 0.02
-        if (el.position.y > 35) el.position.y = -10
+        el.position.y += 0.01
+        if (el.position.y > 20) el.position.y = -10
         el.rotation.x += 0.06
         el.rotation.y += 0.06
         el.rotation.z += 0.02
@@ -78,13 +78,13 @@ function MainSphere({ material }) {
         bumpMap={bumpMap}
         color={color ? color : "#010101"}
         roughness={0.1}
-        metalness={0}
+        metalness={1}
         bumpScale={0.003}
         clearcoat={1}
         clearcoatRoughness={1}
-        radius={0.3}
-        distort={0.2}
-        opacity={0.7} 
+        radius={0.05}
+        distort={0.10}
+        opacity={1} 
       />
       {material && <Instances material={material} />}
     </>

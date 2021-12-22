@@ -31,3 +31,19 @@
 
       <RimLight brightness={0.5} color={"#ffedb6"} position={[-3, 1, 3]}/>
         <RimLight brightness={30} color={"#ffedb6"} position={[-2, 5, 3]}/>
+
+
+
+        function RimLight({ brightness, color, position}) {
+            return (
+              <rectAreaLight
+                width={7}
+                height={7}
+                intensity={brightness}
+                color={color}
+                position={position}
+                rotation={[0, 180, 0]}
+                castShadow
+              />
+            );
+          }

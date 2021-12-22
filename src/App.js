@@ -8,19 +8,7 @@ import Particles from './objects/particles'
 import Mermaid from './objects/mermaid'
 import Bubbles from './objects/bubbles'
 
-function RimLight({ brightness, color, position}) {
-  return (
-    <rectAreaLight
-      width={7}
-      height={7}
-      intensity={brightness}
-      color={color}
-      position={position}
-      rotation={[0, 180, 0]}
-      castShadow
-    />
-  );
-}
+
 
 export default function App() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
