@@ -14,3 +14,20 @@
 
 
 <Particles count={isMobile ? 0 : 10000} mouse={mouse} />
+
+
+
+
+<Sky
+        turbidity={7.3}
+        rayleigh={3.4}
+        mieCoefficient={0.013}
+        mieDirectionalG={0.78}
+        inclination={0.49}
+        azimuth={0.25}
+      />
+
+
+
+      <RimLight brightness={0.5} color={"#ffedb6"} position={[-3, 1, 3]}/>
+        <RimLight brightness={30} color={"#ffedb6"} position={[-2, 5, 3]}/>

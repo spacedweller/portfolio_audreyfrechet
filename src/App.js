@@ -1,17 +1,33 @@
 
 import React, { useRef, useState, Suspense, useEffect } from 'react'
 import { Canvas, useFrame, useThree} from "@react-three/fiber"
-import { Html, OrbitControls, Icosahedron, Environment,  MeshDistortMaterial, useTexture, useCubeTexture, ContactShadows, CameraShake} from '@react-three/drei'
-import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
+import { Html, OrbitControls, Icosahedron, Environment, Sky,  MeshDistortMaterial, useTexture, useCubeTexture, ContactShadows, CameraShake} from '@react-three/drei'
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette} from '@react-three/postprocessing'
 import Overlay from './components/Overlay.js'
 import Particles from './objects/particles'
 import Mermaid from './objects/mermaid'
 import Bubbles from './objects/bubbles'
 
+function RimLight({ brightness, color, position}) {
+  return (
+    <rectAreaLight
+      width={7}
+      height={7}
+      intensity={brightness}
+      color={color}
+      position={position}
+      rotation={[0, 180, 0]}
+      castShadow
+    />
+  );
+}
 
 export default function App() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
   const mouse = useRef([0, 0])
+  const colorTheme = "#01524D"
+
+
 
   return (
     <>
@@ -21,14 +37,16 @@ export default function App() {
     stencil: false,
     depth: false}} >
           <Suspense fallback={<Html center>Loading.</Html>}>
+          
 
-        <color attach="background" args={['#01524D']} />
-        <fog color="#01524D" attach="fog" near={8} far={30} />
-        <ambientLight intensity={0.01}/>
+        <color attach="background" args={["#01524D"]} />
+        <fog color={colorTheme} attach="fog" near={8} far={30} />
+        <ambientLight color={colorTheme} intensity={1}/>
           <Mermaid/>
-          <Bubbles />
+          <Bubbles color={colorTheme}/>
           <Environment  preset="city" />
         <OrbitControls />
+        
         <EffectComposer>
           <DepthOfField focusDistance={0.1} focalLength={0.5} bokehScale={1} height={480} />
           <Bloom luminanceSmoothing={0.1} luminanceThreshold={0.9} />
@@ -36,6 +54,7 @@ export default function App() {
           <Vignette darkness={3} eskil={true}/>
           <Vignette darkness={0.5}/>
         </EffectComposer>
+        
         </Suspense>
 
       </Canvas>

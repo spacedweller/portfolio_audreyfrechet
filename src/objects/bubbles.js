@@ -18,6 +18,7 @@ function MainSphere({ material }) {
   function Instances({ material }) {
     // we use this array ref to store the spheres after creating them
     const [sphereRefs] = useState(() => [])
+    const [lightsRefs] = useState(() => [])
     // we use this array to initialize the background spheres
     const initialPositions = [
       [-4, 30, -12],
@@ -30,6 +31,8 @@ function MainSphere({ material }) {
       [8, 20, -20],
       [5, 26, -10],
     ]
+
+
     // smaller spheres movement
     useFrame(() => {
       // animate each sphere in the array
@@ -45,6 +48,8 @@ function MainSphere({ material }) {
       <>
         
         {initialPositions.map((pos, i) => (
+            <>
+            
           <Icosahedron
             args={[1, 4]}
             position={[pos[0], pos[1], pos[2]]}
@@ -52,12 +57,13 @@ function MainSphere({ material }) {
             key={i}
             ref={(ref) => (sphereRefs[i] = ref)}
           />
+          </>
         ))}
       </>
     )
   }
   
- export default function Bubbles() {
+ export default function Bubbles({color}) {
     const bumpMap = useTexture('/bump.jpg')
     const envMap = useCubeTexture(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: '/cube/' })
 
@@ -70,14 +76,15 @@ function MainSphere({ material }) {
         ref={set}
         envMap={envMap}
         bumpMap={bumpMap}
-        color={"#010101"}
+        color={color ? color : "#010101"}
         roughness={0.1}
-        metalness={1}
-        bumpScale={0.005}
+        metalness={0}
+        bumpScale={0.003}
         clearcoat={1}
         clearcoatRoughness={1}
-        radius={1}
-        distort={0.4}
+        radius={0.3}
+        distort={0.2}
+        opacity={0.7} 
       />
       {material && <Instances material={material} />}
     </>
