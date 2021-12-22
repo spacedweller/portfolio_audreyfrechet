@@ -66,6 +66,8 @@
  }
  
  var WaterPass = function (dt_size) {
+   console.log("Pass=", Pass)
+   console.log("THis=", this)
    Pass.call(this)
    if (WaterShader === undefined) console.error('THREE.WaterPass relies on THREE.WaterShader')
    var shader = WaterShader

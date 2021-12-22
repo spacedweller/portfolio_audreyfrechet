@@ -6,8 +6,8 @@ import { useGLTF } from '@react-three/drei/core/useGLTF'
 import { OrbitControls, Icosahedron, Environment,  MeshDistortMaterial, useTexture, useCubeTexture, ContactShadows, CameraShake} from '@react-three/drei'
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 import Overlay from './components/Overlay.js'
-import { WaterPass } from './post/Waterpass'
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass'
+import Effects from './Effects'
+import Particles from './Particles'
 
 
 
@@ -113,18 +113,15 @@ const Scene = ({newMaterialOpt}) => {
     scene.fog = new THREE.Fog(0xf1f1f1, 20, 100);
     camera.fov = 50;
   }, [])
-
   return ( <> </>)
-
-
 }
 
 
 export default function App() {
-  return (
-    
-           
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+  const mouse = useRef([0, 0])
 
+  return (
     <Suspense fallback={<span>loading...</span>}>
        <Overlay/>
       <Canvas dpr={[1,2]} camera={{position: [0, -2, 4], fov: 40}} gl={{ powerPreference: "high-performance",
@@ -134,28 +131,13 @@ export default function App() {
         <color attach="background" args={['#01524D']} />
         <fog color="#01524D" attach="fog" near={8} far={30} />
         <ambientLight intensity={0.01}/>
-        <Suspense fallback={null}>
           <Mermaid/>
           <Bubbles />
+          <Particles count={isMobile ? 0 : 10000} mouse={mouse} />
           <Environment  preset="city" />
-        </Suspense>
-        <EffectComposer>
-          <DepthOfField focusDistance={0.1} focalLength={0.5} bokehScale={1} height={480} />
-          <RenderPass attachArray="passes" scene={scene} camera={camera} />
-          <WaterPass attachArray="passes" factor={1.5} />
-          <Bloom luminanceSmoothing={0.1} luminanceThreshold={0.9} />
-          <Noise opacity={0.05} />
-          <Vignette darkness={3} eskil={true}/>
-          <Vignette darkness={0.5}/>
-        </EffectComposer>
         <OrbitControls />
-        
-
-
+        <Effects/>
       </Canvas>
     </Suspense>
-
- 
-    
   );
 }
