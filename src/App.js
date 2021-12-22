@@ -24,7 +24,7 @@ export default function App() {
     antialias: false,
     stencil: false,
     depth: false}} >
-          <Suspense fallback={<Html center>Loading.</Html>}>
+          <Suspense fallback={<Html center>Loading..</Html>}>
           
 
         <color attach="background" args={["#01524D"]} />
