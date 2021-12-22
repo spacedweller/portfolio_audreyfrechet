@@ -5,3 +5,12 @@
           <Vignette darkness={3} eskil={true}/>
           <Vignette darkness={0.5}/>
         </EffectComposer>
+
+
+
+
+
+
+
+
+<Particles count={isMobile ? 0 : 10000} mouse={mouse} />

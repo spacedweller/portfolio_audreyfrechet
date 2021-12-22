@@ -6,6 +6,7 @@
     "@react-three/drei": "^7.22.6",
     "@react-three/fiber": "^7.0.24",
     "@react-three/postprocessing": "^2.1.2",
+    "@rest-hooks/core": "^3.0.2",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -13,6 +14,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "rest-hooks": "^6.1.7",
     "three": "^0.134.0",
     "three-stdlib": "^2.6.2",
     "web-vitals": "^1.1.2"
@@ -40,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "typescript": "^4.5.4"
   }
 }

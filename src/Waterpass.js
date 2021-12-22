@@ -26,7 +26,7 @@
  var WaterShader = {
    uniforms: {
      byp: { value: 0 }, //apply the glitch ?
-     tex: { type: 't', value: null },
+     texture: { type: 't', value: null },
      time: { type: 'f', value: 0.0 },
      factor: { type: 'f', value: 0.0 },
      resolution: { type: 'v2', value: null }
@@ -43,7 +43,7 @@
      uniform float time;
      uniform float factor;
      uniform vec2 resolution;
-     uniform sampler2D tex;
+     uniform sampler2D texture;
      
      varying vec2 vUv;
      
@@ -57,58 +57,51 @@
          float y = uv1.x * frequency + time * .3;
          uv1.x += cos(x+y) * amplitude * cos(y);
          uv1.y += sin(x-y) * amplitude * cos(y);
-         vec4 rgba = texture2D(tex, uv1);
+         vec4 rgba = texture2D(texture, uv1);
          gl_FragColor = rgba;
        } else {
-         gl_FragColor = texture2D(tex, vUv);
+         gl_FragColor = texture2D(texture, vUv);
        }
      }`
  }
- 
- var WaterPass = function (dt_size) {
-   console.log("Pass=", Pass)
-   console.log("THis=", this)
-   Pass.call(this)
-   if (WaterShader === undefined) console.error('THREE.WaterPass relies on THREE.WaterShader')
-   var shader = WaterShader
-   this.uniforms = UniformsUtils.clone(shader.uniforms)
-   if (dt_size === undefined) dt_size = 64
-   this.uniforms['resolution'].value = new Vector2(dt_size, dt_size)
-   this.material = new ShaderMaterial({
-     uniforms: this.uniforms,
-     vertexShader: shader.vertexShader,
-     fragmentShader: shader.fragmentShader
-   })
-   this.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1)
-   this.scene = new Scene()
-   this.quad = new Mesh(new PlaneBufferGeometry(2, 2), null)
-   this.quad.frustumCulled = false // Avoid getting clipped
-   this.scene.add(this.quad)
-   this.factor = 0
-   this.time = 0
- }
- 
- WaterPass.prototype = Object.assign(Object.create(Pass.prototype), {
-   constructor: WaterPass,
- 
-   render: function (renderer, writeBuffer, readBuffer, deltaTime, maskActive) {
-     const factor = Math.max(0, this.factor)
-     this.uniforms['byp'].value = factor ? 0 : 1
-     this.uniforms['tex'].value = readBuffer.texture
-     this.uniforms['time'].value = this.time
-     this.uniforms['factor'].value = this.factor
-     this.time += 0.05
-     this.quad.material = this.material
-     if (this.renderToScreen) {
-       renderer.setRenderTarget(null)
-       renderer.render(this.scene, this.camera)
-     } else {
-       renderer.setRenderTarget(writeBuffer)
-       if (this.clear) renderer.clear()
-       renderer.render(this.scene, this.camera)
-     }
-   }
- })
- 
- export { WaterPass }
- 
+ class WaterPass extends Pass {
+    constructor(dt_size) {
+      super()
+      this.uniforms = UniformsUtils.clone(WaterShader.uniforms)
+      if (dt_size === undefined) dt_size = 64
+      this.uniforms["resolution"].value = new Vector2(dt_size, dt_size)
+      this.material = new ShaderMaterial({
+        uniforms: this.uniforms,
+        vertexShader: WaterShader.vertexShader,
+        fragmentShader: WaterShader.fragmentShader
+      })
+      this.camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1)
+      this.scene = new Scene()
+      this.quad = new Mesh(new PlaneBufferGeometry(2, 2), null)
+      this.quad.frustumCulled = false // Avoid getting clipped
+      this.scene.add(this.quad)
+      this.factor = 0
+      this.time = 0
+    }
+  
+    render(renderer, writeBuffer, readBuffer, deltaTime, maskActive) {
+      const factor = Math.max(0, this.factor)
+      this.uniforms["byp"].value = factor ? 0 : 1
+      this.uniforms["texture"].value = readBuffer.texture
+      this.uniforms["time"].value = this.time
+      this.uniforms["factor"].value = this.factor
+      this.time += 0.05
+      this.quad.material = this.material
+      if (this.renderToScreen) {
+        renderer.setRenderTarget(null)
+        renderer.render(this.scene, this.camera)
+      } else {
+        renderer.setRenderTarget(writeBuffer)
+        if (this.clear) renderer.clear()
+        renderer.render(this.scene, this.camera)
+      }
+    }
+  }
+  
+  export { WaterPass }
+  
