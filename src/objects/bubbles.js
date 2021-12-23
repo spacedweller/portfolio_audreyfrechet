@@ -21,7 +21,7 @@ function MainSphere({ material }) {
     // we use this array to initialize the background spheres
     const initialPositions = [
       [-4, 30, 0],
-      [-2, 32, -4],
+      [-2, 16, -4],
       [-1, 12, 2],
       [1, 6, -1],
       [3, 4, -3],
@@ -30,6 +30,9 @@ function MainSphere({ material }) {
       [0, 20, -2],
       [1, 26, -1],
       [0, 0, -3],
+      [-2, -5, 2],
+      [-1.5, -5, 2],
+      [0.5, -5, 2],
     ]
 
 
