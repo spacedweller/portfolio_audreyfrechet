@@ -15,7 +15,7 @@ function MainSphere({ material }) {
     return <Icosahedron args={[1, 4]} ref={main} material={material} position={[0, 0, 0]} />
   }
   
-  function Instances({ material }) {
+  function Instances({ material}) {
     // we use this array ref to store the spheres after creating them
     const [sphereRefs] = useState(() => [])
     // we use this array to initialize the background spheres
@@ -63,7 +63,7 @@ function MainSphere({ material }) {
     )
   }
   
- export default function Bubbles({color}) {
+ export default function Bubbles({color, shadow, reflection }) {
     const bumpMap = useTexture('/bump.jpg')
     const envMap = useCubeTexture(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: '/cube/' })
 
@@ -84,7 +84,10 @@ function MainSphere({ material }) {
         clearcoatRoughness={1}
         radius={0.05}
         distort={0.10}
-        opacity={1} 
+        opacity={0.67}
+        emissive={shadow} 
+        specular={reflection}
+         
       />
       {material && <Instances material={material} />}
     </>

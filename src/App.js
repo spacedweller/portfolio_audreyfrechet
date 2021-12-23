@@ -7,6 +7,7 @@ import Overlay from './components/Overlay.js'
 import Particles from './objects/particles'
 import Mermaid from './objects/mermaid'
 import Bubbles from './objects/bubbles'
+import Swarm from './objects/swarm'
 
 
 
@@ -31,7 +32,8 @@ export default function App() {
         <fog color={colorTheme} attach="fog" near={8} far={30} />
         <ambientLight color={colorTheme} intensity={1}/>
           <Mermaid/>
-          <Bubbles color={colorTheme}/>
+          <Bubbles color={colorTheme} shadow={"#01b7ab"} reflection={"#FFFFFF"}/>
+          <Swarm count={isMobile ? 5000 : 10000} mouse={mouse} color={"#0DA6D4"} shadow={"#01b7ab"} reflection={"#FFFFFF"}/>
           <Environment  preset="city" />
         <OrbitControls />
         
