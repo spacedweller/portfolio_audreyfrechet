@@ -1,4 +1,3 @@
-import * as THREE from 'three'
 import React, { useRef, useEffect, useMemo } from "react"
 import { extend, useFrame, useThree } from "@react-three/fiber"
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
@@ -15,7 +14,6 @@ extend({ EffectComposer, ShaderPass, RenderPass, WaterPass, UnrealBloomPass, Fil
 export default function CustomEffects({isMobile}) {
   const composer = useRef()
   const { scene, gl, size, camera } = useThree()
-  const aspect = useMemo(() => new THREE.Vector2(size.width, size.height), [size])
   const params = useMemo(() => ({ focus: 2.3, aperture: 0.005, maxblur: 0.008 }), [])
   useEffect(() => void composer.current.setSize(size.width, size.height), [size])
   useFrame(() => composer.current.render(), 2)

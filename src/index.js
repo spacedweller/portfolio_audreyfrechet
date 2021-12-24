@@ -1,7 +1,6 @@
 
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import { Canvas, useFrame } from '@react-three/fiber'
 import reportWebVitals from './reportWebVitals';
 import App from './App'
 import './index.css'

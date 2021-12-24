@@ -1,7 +1,6 @@
 import React, { useRef,  Suspense } from 'react'
 import { Canvas, extend} from "@react-three/fiber"
-import { Html, OrbitControls, Environment, Effects } from '@react-three/drei'
-import { EffectComposer, DepthOfField, Bloom, Noise, Vignette} from '@react-three/postprocessing'
+import { Html, OrbitControls, Environment } from '@react-three/drei'
 import Overlay from './components/Overlay.js'
 import Mermaid from './objects/mermaid'
 import Bubbles from './objects/bubbles'
