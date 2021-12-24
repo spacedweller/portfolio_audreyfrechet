@@ -52,12 +52,11 @@ function MainSphere({ material }) {
         
         {initialPositions.map((pos, i) => (
             <>
-            
           <Icosahedron
+            key={i}
             args={[1, 4]}
             position={[pos[0], pos[1], pos[2]]}
             material={material}
-            key={i}
             ref={(ref) => (sphereRefs[i] = ref)}
           />
           </>
