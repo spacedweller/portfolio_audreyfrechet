@@ -1,7 +1,7 @@
 import {useRef} from 'react'
 import { useGLTF } from '@react-three/drei/core/useGLTF'
 import { useFrame } from "@react-three/fiber"
-
+import Titles from '../components/Titles'
 
 export default function Mermaid({ ...props }) {
     const group = useRef()
@@ -22,6 +22,7 @@ export default function Mermaid({ ...props }) {
           position={[0, 0, 2]}
           rotation={[Math.PI / 2, 0, 0]}
         />
+
       </group>
     )
   }
