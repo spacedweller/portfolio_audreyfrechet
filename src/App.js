@@ -12,6 +12,57 @@ import Titles from './components/Titles'
 import Farm from './objects/farm'
 import Rig from './components/Rig'
 import useScrollHandler from './components/useScrollHandler'
+import styled, {css, keyframes} from 'styled-components'
+import FontStyles from './fontStyles'
+
+
+const fadeIn = keyframes`
+0% {
+  opacity: 0;
+}
+
+100% {
+  opacity: 1;
+}
+`
+
+const base = css`
+  position: absolute;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-variant-numeric: slashed-zero tabular-nums;
+  line-height: 1em;
+  pointer-events: none;
+  color: indianred;
+  
+`
+
+const UpperLeft = styled.div`
+  ${base}
+  color: white;
+  font-family: 'NeueHaasDisplayBold';
+  top: 100px;
+  left: 250px;
+  opacity: 80%;
+  font-size: 2.8em;
+  transform: skew(2deg, 2deg);
+
+  @media only screen and (max-width: 900px) {
+    font-size: 1.5em;
+  }
+
+  animation: ${fadeIn} 4s linear;
+
+`
+
+
+const Text = styled.div`
+  font-size: 0.5em;
+  text-align: right;
+  margin-right: 15px;
+`
+
+
 
 export default function App() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
@@ -19,15 +70,17 @@ export default function App() {
   const colorTheme = "#01524D"
   const [mermaid, setMermaid] = useState(true)
   const [rendering, setRendering] = useState(true)
+  const [canvasLoaded, setCanvasLoaded] = useState(false)
 
   const RenderConditionally = props => useFrame(({ gl, scene, camera }) =>
   props.isScrolling && gl.render(scene, camera), 1)
 
   return (
     <>
-      <Canvas invalidateFrameloop dpr={[1,2]} camera={{position: [0, -2, isMobile ? 4.7 : 4], fov: 40}} gl={{ powerPreference: "high-performance", antialias: false, stencil: false, depth: false}} >
+      <Canvas onCreated={() => {setTimeout(function() {setCanvasLoaded(true)}, 4000); }} invalidateFrameloop dpr={[1,2]} camera={{position: [0, -2, isMobile ? 4.7 : 4], fov: 40}} gl={{ powerPreference: "high-performance", antialias: false, stencil: false, depth: false}} >
         {mermaid ?
         <Suspense fallback={null}>
+          
           <color attach="background" args={["#01524D"]}/>
           <ambientLight color={colorTheme} intensity={1}/>
           <Mermaid/>
@@ -36,7 +89,6 @@ export default function App() {
           <Environment  preset="city"/>
 
           <CustomEffectsMermaid isMobile={isMobile}/>
-          <OrbitControls/>
         </Suspense>
         :
         <Suspense fallback={null}>
@@ -48,10 +100,21 @@ export default function App() {
        <Rig/>
        <RenderConditionally isScrolling={true} />
       </Canvas>
-      <Overlay/>
+      {canvasLoaded ? 
+        <UpperLeft>
+          AUDREY FRECHET
+          <br/>
+          <Text>3d artist</Text>
+       </UpperLeft>
+      :
+      <UpperLeft></UpperLeft>
+      }
+
       
       <Loading/>
     </>
   );
 }
+
+
 
