@@ -56,7 +56,7 @@ export default function Swarm({ count, mouse, color, shadow, reflection }) {
     })
     return (
       <>
-        <pointLight ref={light} distance={40} intensity={8} color="#FFFFFF" />
+        <pointLight ref={light}  distance={1} intensity={0} color="#FFFFFF" />
         <instancedMesh ref={mesh} args={[null, null, count]}>
           <dodecahedronBufferGeometry attach="geometry" args={[0.2, 0]} />
           <meshPhongMaterial attach="material" color={color} emissive={shadow} specular={reflection} opacity={0.67} transparent />

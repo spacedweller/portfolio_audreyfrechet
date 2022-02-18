@@ -18,13 +18,13 @@ const StyledLoading = styled.div`
 }
 
 .loading-bar-container {
-  width: 100px;
-  height: 32px;
+  width: 100%;
+  height: 3px;
   background: #272727;
 }
 
 .loading-bar {
-  height: 32px;
+  height: 3px;
   background: #01524D;
 }
 `
@@ -36,15 +36,19 @@ export default function Loading() {
       leave: { opacity: 0 },
       update: { progress },
     });
+    var progressWidth = progress.toString() + "%"
     return transition(
       ({ progress, opacity }, active) =>
         active && (
           <StyledLoading>
           <a.div className='loading' style={{ opacity }}>
             <div className='loading-bar-container'>
-              <a.div className='loading-bar' style={{ width: progress }}></a.div>
+              <a.div className='loading-bar' style={{ width: progressWidth }}></a.div>
             </div>
+
           </a.div>
+          <div>Made by </div>
+
           </StyledLoading>
         )
     );

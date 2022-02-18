@@ -19,7 +19,7 @@ const Global = createGlobalStyle`
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #372720;
+    background-color: #171717;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -30,7 +30,7 @@ const Global = createGlobalStyle`
   }
   
   #root {
-    overflow: auto;
+    overflow: hidden;
   }
   
   body {
@@ -41,6 +41,8 @@ const Global = createGlobalStyle`
     color: black;
     -webkit-font-smoothing: antialiased;
   }
+
+
   
  
 `

@@ -9,6 +9,7 @@ import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass"
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader"
 import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass'
 
+
 extend({ EffectComposer, ShaderPass, RenderPass, UnrealBloomPass, FilmPass, BokehPass })
 
 export default function CustomEffectsFarm({isMobile}) {

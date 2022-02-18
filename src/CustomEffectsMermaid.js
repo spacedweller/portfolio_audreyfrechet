@@ -16,6 +16,9 @@ export default function CustomEffectsMermaid({isMobile}) {
   const composer = useRef()
   const { scene, gl, size, camera } = useThree()
   const params = useMemo(() => ({ focus: 2.3, aperture: 0.005, maxblur: 0.008 }), [])
+  const aspect = useMemo(() => new THREE.Vector2(1920, 1080), [])
+
+
 
   useEffect(() => void composer.current.setSize(size.width, size.height), [size])
   useFrame(() => composer.current.render(), 2)
