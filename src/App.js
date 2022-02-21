@@ -80,6 +80,7 @@ export default function App() {
             <color attach="background" args={["#01524D"]}/>
             <ambientLight color="#62c7e9" intensity={0.7}/>
             <pointLight position={[3, 3, -1]} distance={10} intensity={6} color="#add8e6" />
+            <pointLight position={[-1.5, 3, -1]} distance={10} intensity={5} color="#add8e6" />
             <Mermaid isMobile={isMobile}/>
             <Bubbles color={colorTheme} shadow={"#01b7ab"} reflection={"#FFFFFF"}/>
             <Swarm count={isMobile ? 500 : 500} mouse={mouse} color={"#0DA6D4"} shadow={"#01b7ab"} reflection={"#FFFFFF"}/>
