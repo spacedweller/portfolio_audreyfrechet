@@ -18,7 +18,7 @@ export default function Swarm({ count, mouse, color, shadow, reflection }) {
       for (let i = 0; i < count; i++) {
         const t = Math.random() * 100
         const factor = 20 + Math.random() * 100
-        const speed = 0.01 + Math.random() / 200
+        const speed = 0.001 + Math.random() / 200
         const xFactor = -7 + Math.random() * 10
         const yFactor = -5 + Math.random() * 10
         const zFactor = -15 + Math.random() * 10

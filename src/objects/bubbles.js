@@ -1,7 +1,19 @@
-import {  useState } from 'react'
+import {  useState, useRef } from 'react'
 import {useFrame } from '@react-three/fiber'
 import { Icosahedron, useTexture, useCubeTexture, MeshDistortMaterial} from '@react-three/drei'
+import * as THREE from 'three'
 
+
+function MainSphere({ material }) {
+  const main = useRef()
+  // main sphere rotates following the mouse position
+  useFrame(({ clock, mouse }) => {
+    main.current.rotation.z = clock.getElapsedTime()
+    main.current.rotation.y = THREE.MathUtils.lerp(main.current.rotation.y, mouse.x * Math.PI, 0.1)
+    main.current.rotation.x = THREE.MathUtils.lerp(main.current.rotation.x, mouse.y * Math.PI, 0.1)
+  })
+  return <Icosahedron args={[1, 4]} ref={main} material={material} position={[0, 0, 0]} />
+}
 
 
   function Instances({ material}) {
@@ -38,7 +50,7 @@ import { Icosahedron, useTexture, useCubeTexture, MeshDistortMaterial} from '@re
     })
     return (
       <>
-        
+        {/* <MainSphere material={material} /> */}
         {initialPositions.map((pos, i) => (
             
           <Icosahedron

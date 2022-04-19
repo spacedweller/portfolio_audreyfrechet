@@ -1,4 +1,3 @@
-
 import React from 'react'
 import ReactDOM from 'react-dom'
 import reportWebVitals from './reportWebVitals';
@@ -41,10 +40,6 @@ const Global = createGlobalStyle`
     color: black;
     -webkit-font-smoothing: antialiased;
   }
-
-
-  
- 
 `
 
 ReactDOM.render(
