@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, Suspense, useCallback, useState } from 'react'
+import React, { useRef, useEffect, Suspense, useCallback, useState, Button } from 'react'
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Environment, OrbitControls} from '@react-three/drei'
 import Overlay from './components/Overlay.js'
@@ -15,6 +15,11 @@ import styled, {css, keyframes} from 'styled-components'
 
 import RollOut from './components/RollOut'
 import Projects from './components/Projects.js'
+import TestSpring from './components/TestSpring.js'
+import { useSpring } from '@react-spring/core'
+
+import { a as web } from '@react-spring/web'
+
 
 const fadeIn = keyframes`
 0% {
@@ -97,17 +102,15 @@ const Menu = styled.div`
 
 export default function App() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-  const mouse = useRef([0, 0])
-  const [colorTheme, setColorTheme] = useState("#01524D")
-  const [mermaid, setMermaid] = useState(true)
   const [canvasLoaded, setCanvasLoaded] = useState(false)
   const [introLoaded, setIntroLoaded] = useState(false)
-  const [isGlitching, setIsGlitching] = useState(false)
+  const [currentScene, setCurrentScene] = useState(1)
+  const [colorTheme, setColorTheme] = useState("#01524D")
   const [loadingFinished, setLoadingFinished] = useState(false)
+
+
   console.log("[APP] Intro loaded state:", introLoaded)
-  
-  const RenderConditionally = props => useFrame(({ gl, scene, camera }) => 
-  props.isScrolling && gl.render(scene, camera), 1)
+
 
   // const onKeyDown = (e) => {
   //   if (e.key === "Tab" ) {
@@ -126,50 +129,35 @@ export default function App() {
   // }
   
   return (
-    <>
-        <RollOut onChange={() => {setIntroLoaded(true)}}> 
-        
-        <Suspense> 
-        <Canvas onCreated={() => {setTimeout(function() {setCanvasLoaded(true)}, 5000); }} invalidateFrameloop dpr={[1,2]} camera={{position: [0, -2, isMobile ? 4.7 : 4], fov: 40}} gl={{ powerPreference: "high-performance", antialias: false, stencil: false, depth: false}} >
-          {mermaid ?
-          <Suspense fallback={"This is fallback"}>
-            <color attach="background" args={[colorTheme]}/>
-            <ambientLight color="#62c7e9" intensity={0.7}/>
-            <pointLight position={[3, 3, -1]} distance={10} intensity={6} color="#add8e6" />
-            <pointLight position={[-1.5, 3, -1]} distance={10} intensity={5} color="#add8e6" />
-            <Mermaid isMobile={isMobile} mouse={mouse} />
-            <Bubbles color={colorTheme} shadow={"#01b7ab"} reflection={"#FFFFFF"}/>
-            <Swarm count={isMobile ? 250 : 500} mouse={mouse} color={"#0DA6D4"} shadow={"#01b7ab"} reflection={"#FFFFFF"}/>
-            <Environment preset="studio"/>
-            <CustomEffectsMermaid isMobile={isMobile} isGlitching={isGlitching}/>
-          </Suspense>
-          :
-          <Suspense fallback={null}>
-            <Farm/>
-            <Environment  preset="city"/>
-            <CustomEffectsFarm isMobile={isMobile}/>
-          </Suspense>
-          }
-        <Rig/> 
-        <RenderConditionally isScrolling={true} />
-      
-        </Canvas>
-        </Suspense>
+    <>   
+      <RollOut onChange={() => {setIntroLoaded(true)}}> 
+          <Canvas onCreated={() => {setTimeout(function() {setCanvasLoaded(true)}, 5000); }} invalidateFrameloop dpr={[1,2]} camera={{position: [0, -2, isMobile ? 4.7 : 4], fov: 40}} gl={{ powerPreference: "high-performance", antialias: false, stencil: false, depth: false}} >
+            <Suspense fallback={"This is fallback"}>
+              <Mermaid isMobile={isMobile} currentScene={currentScene} currentScene={currentScene} />
+              <Bubbles color={colorTheme} shadow={"#01b7ab"} reflection={"#FFFFFF"}/>
+              <Swarm count={isMobile ? 250 : 500} color={"#0DA6D4"} shadow={"#01b7ab"} reflection={"#FFFFFF"} currentScene={currentScene}/>
+              <Environment preset="studio"/>
+              <CustomEffectsMermaid isMobile={isMobile}/>
+            </Suspense>
+            <Rig currentScene={currentScene} colorTheme={colorTheme}/> 
+          </Canvas>
       </RollOut> 
       
       {canvasLoaded&&introLoaded ? 
       <>
-        <UpperLeft>
+        { currentScene==1 ? <UpperLeft>
           AUDREY FRECHET
           <br/>
           <Text>3d artist</Text>
-       </UpperLeft>
-       <Menu>Projects Reel About Contacts</Menu>
+       </UpperLeft> : <div>scene 2</div> }
+        
+       <Menu>Projects Reel About Contact</Menu>
        </>
       :
       <div></div>
       }
       <Loading onChange={() => {setLoadingFinished(true)}}/>
+   
     </>
   );
 }

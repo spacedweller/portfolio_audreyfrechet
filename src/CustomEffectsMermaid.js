@@ -15,7 +15,7 @@ import { GlitchMode } from 'postprocessing'
 
 extend({ EffectComposer, ShaderPass, RenderPass, WaterPass, UnrealBloomPass, FilmPass, BokehPass, GlitchPass})
 
-const CustomEffectsMermaid = ({isMobile, isGlitching}) => {
+const CustomEffectsMermaid = ({isMobile}) => {
   const composer = useRef()
   const { scene, gl, size, camera } = useThree()
   const params = useMemo(() => ({ focus: 2.3, aperture: 0.005, maxblur: 0.008 }), [])
@@ -32,7 +32,7 @@ const CustomEffectsMermaid = ({isMobile, isGlitching}) => {
       <shaderPass attachArray="passes" args={[FXAAShader]} material-uniforms-resolution-value={[1 / size.width, 1 / size.height]} renderToScreen />
       <waterPass attachArray="passes" factor={isMobile? 0.4 : 0.15} />
       <bokehPass attachArray="passes" args={[scene, camera, params]} />
-      <glitchPass attachArray="passes" goWild={true} enabled={isGlitching} />
+      <glitchPass attachArray="passes" goWild={true} enabled={false} />
     </effectComposer>
   )
 }
