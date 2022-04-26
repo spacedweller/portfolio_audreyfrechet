@@ -3,7 +3,7 @@ import {useRef, useState, useEffect} from 'react'
 import { useFrame, useThree } from "@react-three/fiber"
 import { animated, useSpring, config, easings} from '@react-spring/three'
 
-export default function Rig({currentScene, colorTheme}) {
+export default function Rig({currentScene, colorTheme, isMobile}) {
     const [isTransitioning, setIsTransitioning] = useState(false)
     const { renderer, camera, mouse } = useThree()
     const light = useRef()
@@ -49,7 +49,7 @@ export default function Rig({currentScene, colorTheme}) {
         </> :
         null
         }
-        <fog attach="fog" args={["#5a9391", 2.3, 4]} />
+        <fog attach="fog" args={isMobile? ["#5a9391", 3, 8] : ["#5a9391", 2.3, 4]} />
         <animated.color attach="background" {...sceneProps}></animated.color>
         <ambientLight color="#62c7e9" intensity={0.7}/>
         <pointLight position={[3, 3, -1]} distance={10} intensity={6} color="#add8e6" />

@@ -139,7 +139,7 @@ export default function App() {
               <Environment preset="studio"/>
               <CustomEffectsMermaid isMobile={isMobile}/>
             </Suspense>
-            <Rig currentScene={currentScene} colorTheme={colorTheme}/> 
+            <Rig currentScene={currentScene} colorTheme={colorTheme} isMobile={isMobile}/> 
           </Canvas>
       </RollOut> 
       
