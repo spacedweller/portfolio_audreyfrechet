@@ -9,7 +9,6 @@ export default function RollOut( props ) {
     from:  {clipPath: "polygon(0 50%, 100% 50%, 100% 50%, 0 50%)", opacity: "0"}, delay: 4000,  width: 500, height: 500, config: {tension: 25}, onRest: () => setFinished(true)})
 
     useEffect(() => {
-      console.log("Rollout useeffect is triggered!")
       if (finished) {
         props.onChange()
         }

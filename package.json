@@ -2,6 +2,7 @@
   "name": "threefiber1",
   "version": "0.1.0",
   "private": true,
+  "main": "src/index.js",
   "dependencies": {
     "@react-three/drei": "^7.22.6",
     "@react-three/fiber": "^7.0.24",

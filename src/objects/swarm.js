@@ -1,4 +1,4 @@
-import React, { useMemo} from 'react'
+import React, { useMemo, useEffect, useState} from 'react'
 import { useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame, useThree} from "@react-three/fiber"
@@ -8,12 +8,39 @@ import {a, easings} from '@react-spring/three'
 
 
 export default function Swarm({ count, mouse, color, shadow, reflection, currentScene }) {
+    const [acceleration, setAcceleration] = useState(5)
+    const [currColor, setCurrColor] = useState(color)
+    const [position, setPosition] = useState([1, 0, 0])
+
     const mesh = useRef()
     const light = useRef()
-    const { size, viewport } = useThree()
-    const aspect = size.width / viewport.width
-    const sceneProps = useSpring({position: currentScene==1 ? [1, 0, 0] : [1, -3, 0], config: { mass: 3, tension: 100, friction: 100, precision: 0.0001, easing: easings.easeInOutQuart }})
-  
+
+    let sceneProps = useSpring({position: position, config: { mass: 3, tension: 100, friction: 100, precision: 0.0001, easing: easings.easeInOutQuart }})
+    console.log("[SWARM] current color is:", currColor)
+
+    function SetSceneOptions(scene) {
+      switch(scene) {
+          case 1:
+              setAcceleration(5)
+              setCurrColor(color)
+              setPosition([1, 0, 0])
+              break;
+          case 2:
+              setAcceleration(500)
+              setCurrColor("#F7CA18")
+              setPosition([1, -3, 0])
+              break;
+          case 3:
+              alert("Scene 3 triggered!")
+              break;
+      }
+    }
+
+    useEffect(() => {
+      SetSceneOptions(currentScene)
+      console.log("-----------SWARM USEE EFFECT-----------")
+    }, [currentScene])
+
     const dummy = useMemo(() => new THREE.Object3D(), [])
     // Generate some random positions, speed factors and timings
     const particles = useMemo(() => {
@@ -21,7 +48,7 @@ export default function Swarm({ count, mouse, color, shadow, reflection, current
       for (let i = 0; i < count; i++) {
         const t = Math.random() * 100
         const factor = 20 + Math.random() * 100
-        const speed = 0.001 + Math.random() / 200
+        const speed = 0.001  + Math.random() / 200
         const xFactor = -7 + Math.random() * 10
         const yFactor = -5 + Math.random() * 10
         const zFactor = -15 + Math.random() * 10
@@ -36,7 +63,7 @@ export default function Swarm({ count, mouse, color, shadow, reflection, current
       particles.forEach((particle, i) => {
         let { t, factor, speed, xFactor, yFactor, zFactor } = particle
         // There is no sense or reason to any of this, just messing around with trigonometric functions
-        t = particle.t += speed / 5
+        t = particle.t += speed / acceleration
         const a = Math.cos(t) + Math.sin(t * 1) / 10
         const b = Math.sin(t) + Math.cos(t * 2) / 10
         const s = Math.cos(t)
@@ -57,10 +84,10 @@ export default function Swarm({ count, mouse, color, shadow, reflection, current
     })
     return (
       <>
-        <pointLight ref={light}  distance={1} intensity={0} color="#FFFFFF" />
+        <pointLight ref={light}  distance={1} intensity={0} color="#F7CA18" />
         <a.instancedMesh ref={mesh} args={[null, null, count]} {...sceneProps} >
           <dodecahedronBufferGeometry attach="geometry" args={[0.2, 0]} />
-          <meshPhongMaterial attach="material" color={color} emissive={shadow} specular={reflection} opacity={0.67} transparent />
+          <meshPhongMaterial attach="material" color={currColor} emissive={shadow} specular={reflection} opacity={0.67} transparent />
         </a.instancedMesh>
       </>
     )

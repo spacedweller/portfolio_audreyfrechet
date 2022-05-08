@@ -15,7 +15,7 @@ export default function Mermaid({ isMobile, mouse, currentScene, ...props }) {
     const source = isMobile ? '/mermaid4.glb' : '/mermaid4.glb'
     const { nodes, materials } = useGLTF(source)
     const modelProps = useSpring({ position: currentScene == 1? [0, 0, 1.9] : [0, -2, 1.9], config: { mass: 3, tension: 100, friction: 100, precision: 0.0001, easing: easings.easeInOutQuart }} )
-    console.log("MERMAID: props", modelProps)
+    
     const AnimatedMaterial = a(MeshDistortMaterial)
 
 

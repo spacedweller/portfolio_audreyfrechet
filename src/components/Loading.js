@@ -35,23 +35,23 @@ const StyledLoading = styled.div`
 function Loading(props) {
     const { active, progress } = useProgress();
     const [finished, setFinished] = useState(false)
-    console.log("Louading, finished is:", finished)
-    console.log("Louading, progress:", progress)
+    
     const progBar = useRef()
+    var progressWidth = progress.toString() + "%"
   
     const transition = useTransition(active, {
       from: { opacity: 1, progress: 0 },
       leave: { opacity: 0 },
       update: { progress },
     });
-    var progressWidth = progress.toString() + "%"
+    
     
 
 
     useEffect(() => {
-      console.log("Running useeffect is Loaded!")
+      
       if (progress == 100) {
-        console.log("Loading: progress is 100% done")
+        
         props.onChange()
         }
         }, [finished]);
@@ -59,7 +59,7 @@ function Loading(props) {
     useEffect(() => {
       if (progress == 100) {
         progressWidth = progress.toString() + "%"
-        console.log("Loading progress is 100% setting finished to True")
+        
         setFinished(true)
       }
     }, [progress])

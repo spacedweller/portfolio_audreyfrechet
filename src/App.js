@@ -1,24 +1,23 @@
 import React, { useRef, useEffect, Suspense, useCallback, useState, Button } from 'react'
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { Environment, OrbitControls} from '@react-three/drei'
-import Overlay from './components/Overlay.js'
 import Mermaid from './objects/mermaid'
 import Bubbles from './objects/bubbles'
 import Swarm from './objects/swarm'
 import CustomEffectsMermaid from './CustomEffectsMermaid'
 import CustomEffectsFarm from './CustomEffectsFarm.js'
 import Loading from './components/Loading'
-import Titles from './components/Titles'
-import Farm from './objects/farm'
 import Rig from './components/Rig'
 import styled, {css, keyframes} from 'styled-components'
 
 import RollOut from './components/RollOut'
 import Projects from './components/Projects.js'
-import TestSpring from './components/TestSpring.js'
-import { useSpring } from '@react-spring/core'
+import { useSpring, easings} from '@react-spring/core'
 
 import { a as web } from '@react-spring/web'
+import Lensflarelight from './objects/lensflarelight.js'
+import Reel from './components/Reel.js'
+
 
 
 const fadeIn = keyframes`
@@ -40,7 +39,9 @@ const fadeOut = keyframes`
 }
 `
 
-const base = css`
+
+
+export const base = css`
   position: absolute;
   text-transform: uppercase;
   font-weight: 900;
@@ -48,8 +49,10 @@ const base = css`
   line-height: 1em;
   pointer-events: none;
   color: indianred;
-  
+  z-index: 0;
 `
+
+
 const UpperLeft = styled.div`
   ${base}
   color: #ebf0ff;
@@ -100,6 +103,7 @@ const Menu = styled.div`
 `
 
 
+
 export default function App() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
   const [canvasLoaded, setCanvasLoaded] = useState(false)
@@ -107,57 +111,64 @@ export default function App() {
   const [currentScene, setCurrentScene] = useState(1)
   const [colorTheme, setColorTheme] = useState("#01524D")
   const [loadingFinished, setLoadingFinished] = useState(false)
+  const [mainScene, setMainScene] = useState(true)
+  const [sceneLoading, setSceneLoading] = useState(false)
+  const [reel, setReel] = useState(false)
+
+  const bgGreen = "linear-gradient(0deg, rgba(1,82,77,1) 0%, rgba(1,82,77,1) 9%, rgba(1,82,77,1) 93%)"
+  const bgGreenBlack = "linear-gradient(0deg, rgba(1,82,77,1) 0%, rgba(1,82,77,1) 5%, rgba(0,0,0,1) 100%)"
+  const bgBlack = "linear-gradient(0deg, rgba(0,31,29,1) 0%, rgba(0,31,29,1) 9%, rgba(0,14,13,1) 93%)"
+
+  const bg = useSpring({
+    background: currentScene==1? bgGreen : bgGreenBlack, 
+    onRest: {background: () => {setMainScene(currentScene==1? true: false); setSceneLoading(false)}}, 
+    config: { mass: 1, tension: 100, friction: 100, precision: 0.01, easing: easings.easeInOutQuart}})
 
 
   console.log("[APP] Intro loaded state:", introLoaded)
+  console.log("Current scene is:", currentScene)
 
-
-  // const onKeyDown = (e) => {
-  //   if (e.key === "Tab" ) {
-  //     if (isGlitching == false) {
-  //       e.preventDefault();
-  //       setIsGlitching(true)
-  //       setColorTheme("#000000")
-  //       console.log("Tab нажата");
-  //     } else {
-  //       e.preventDefault();
-  //       setIsGlitching(false)
-  //       setColorTheme("#01524D")
-  //       console.log("Tab отжата");
-  //     }
-  //   } 
-  // }
-  
   return (
-    <>   
-      <RollOut onChange={() => {setIntroLoaded(true)}}> 
-          <Canvas onCreated={() => {setTimeout(function() {setCanvasLoaded(true)}, 5000); }} invalidateFrameloop dpr={[1,2]} camera={{position: [0, -2, isMobile ? 4.7 : 4], fov: 40}} gl={{ powerPreference: "high-performance", antialias: false, stencil: false, depth: false}} >
-            <Suspense fallback={"This is fallback"}>
-              <Mermaid isMobile={isMobile} currentScene={currentScene} currentScene={currentScene} />
-              <Bubbles color={colorTheme} shadow={"#01b7ab"} reflection={"#FFFFFF"}/>
-              <Swarm count={isMobile ? 250 : 500} color={"#0DA6D4"} shadow={"#01b7ab"} reflection={"#FFFFFF"} currentScene={currentScene}/>
-              <Environment preset="studio"/>
-              <CustomEffectsMermaid isMobile={isMobile}/>
-            </Suspense>
-            <Rig currentScene={currentScene} colorTheme={colorTheme} isMobile={isMobile}/> 
-          </Canvas>
-      </RollOut> 
-      
-      {canvasLoaded&&introLoaded ? 
-      <>
-        { currentScene==1 ? <UpperLeft>
-          AUDREY FRECHET
-          <br/>
-          <Text>3d artist</Text>
-       </UpperLeft> : <div>scene 2</div> }
+    <>
+        <button style={{position: "absolute", zIndex: 5}} onClick={ !sceneLoading ? () => {setSceneLoading(true); console.log("CLICK, sceneLoading?", sceneLoading); currentScene == 1 ? setCurrentScene(2) : setCurrentScene(1)} : null}> Projects</button>
+        <button style={{position: "absolute", zIndex: 5, marginLeft: 100}} onClick={ !sceneLoading ? () => { !reel ? setReel(true) : setReel(false)} : null}>Reel</button>
+        <RollOut onChange={() => {setIntroLoaded(true)}} > 
         
-       <Menu>Projects Reel About Contact</Menu>
-       </>
-      :
-      <div></div>
-      }
-      <Loading onChange={() => {setLoadingFinished(true)}}/>
-   
+          <Reel reel={reel}/>
+
+          <Projects currentScene={currentScene}/>
+
+            <web.main style={{...bg}} >
+              <Canvas onCreated={() => {setTimeout(function() {setCanvasLoaded(true)}, 5000); }} invalidateFrameloop dpr={[1,2]} camera={{position: [0, -2, isMobile ? 4.7 : 4], fov: 40}} gl={{ powerPreference: "high-performance", antialias: false, stencil: false, depth: false}} >
+                <Suspense fallback={null}>
+                  <Lensflarelight/>
+                  <Mermaid isMobile={isMobile} currentScene={currentScene} />
+                  <Bubbles color={colorTheme} shadow={"#01b7ab"} reflection={"#FFFFFF"} currentScene={currentScene}/>
+                  <Swarm count={isMobile ? 250 : 500} color={"#0DA6D4"} shadow={"#01b7ab"} reflection={"#FFFFFF"} currentScene={currentScene}/>
+                  <Environment preset="studio"/>
+                  <CustomEffectsMermaid isMobile={isMobile} colorTheme={colorTheme} currentScene={currentScene}/>
+                </Suspense>
+                <Rig currentScene={currentScene} mainScene={mainScene} colorTheme={colorTheme} isMobile={isMobile}/> 
+              </Canvas>
+            </web.main>
+
+        </RollOut> 
+        
+        {canvasLoaded&&introLoaded ? 
+        <>
+          { (currentScene==1 && !reel)? <UpperLeft>
+            AUDREY FRECHET
+            <br/>
+            <Text>3d artist</Text>
+        </UpperLeft> : null }
+    
+        <Menu>Projects Reel About Contact</Menu>
+        </>
+        :
+        null
+        }
+
+        <Loading onChange={() => {setLoadingFinished(true)}}/>
     </>
   );
 }

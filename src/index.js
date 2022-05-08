@@ -10,15 +10,19 @@ const Global = createGlobalStyle`
 * {
     box-sizing: border-box;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
   
   html,
   body,
+  main,
   #root {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
-    background-color: #171717;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -26,18 +30,20 @@ const Global = createGlobalStyle`
     -ms-user-select: none;
     user-select: none;
     overflow: hidden;
+    background: #272727;
   }
-  
+
   #root {
     overflow: hidden;
   }
   
   body {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     overflow: hidden;
     overscroll-behavior-y: none;
     font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-    color: black;
     -webkit-font-smoothing: antialiased;
   }
 `

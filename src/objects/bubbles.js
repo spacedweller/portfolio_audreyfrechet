@@ -65,7 +65,7 @@ function MainSphere({ material }) {
     )
   }
   
- export default function Bubbles({color, shadow, reflection }) {
+ export default function Bubbles({color, shadow, reflection, currentScene }) {
     const bumpMap = useTexture('/bump.jpg')
     const envMap = useCubeTexture(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: '/cube/' })
 
@@ -74,6 +74,8 @@ function MainSphere({ material }) {
 
   return (
     <>
+    {currentScene == 1? 
+      <>
       <MeshDistortMaterial
         ref={set}
         envMap={envMap}
@@ -92,6 +94,9 @@ function MainSphere({ material }) {
          
       />
       {material && <Instances material={material} />}
+      </>
+     : null
+     }
     </>
   );
 }
