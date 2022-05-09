@@ -15,9 +15,7 @@ import Projects from './components/Projects.js'
 import { useSpring, easings} from '@react-spring/core'
 
 import { a as web } from '@react-spring/web'
-import Lensflarelight from './objects/lensflarelight.js'
 import Reel from './components/Reel.js'
-
 
 
 const fadeIn = keyframes`
@@ -47,7 +45,6 @@ export const base = css`
   font-weight: 900;
   font-variant-numeric: slashed-zero tabular-nums;
   line-height: 1em;
-  pointer-events: none;
   color: indianred;
   z-index: 0;
 `
@@ -56,6 +53,7 @@ export const base = css`
 const UpperLeft = styled.div`
   ${base}
   color: #ebf0ff;
+  pointer-events: none;
   font-family: 'NeueHaasDisplayBold';
   top: 100px;
   left: 250px;
@@ -81,10 +79,11 @@ const Menu = styled.div`
   ${base}
   color: #ADB2C1;
   font-family: 'NeueHaasDisplayBold';
+
   top: 30px;
   right: 80px;
   opacity: 80%;
-  font-size: 2.0em;
+  font-size: 2.4em;
   transform: skew(0deg, 0deg);
   word-spacing: 15px;
 
@@ -130,8 +129,7 @@ export default function App() {
 
   return (
     <>
-        <button style={{position: "absolute", zIndex: 5}} onClick={ !sceneLoading ? () => {setSceneLoading(true); console.log("CLICK, sceneLoading?", sceneLoading); currentScene == 1 ? setCurrentScene(2) : setCurrentScene(1)} : null}> Projects</button>
-        <button style={{position: "absolute", zIndex: 5, marginLeft: 100}} onClick={ !sceneLoading ? () => { !reel ? setReel(true) : setReel(false)} : null}>Reel</button>
+      
         <RollOut onChange={() => {setIntroLoaded(true)}} > 
         
           <Reel reel={reel}/>
@@ -141,7 +139,6 @@ export default function App() {
             <web.main style={{...bg}} >
               <Canvas onCreated={() => {setTimeout(function() {setCanvasLoaded(true)}, 5000); }} invalidateFrameloop dpr={[1,2]} camera={{position: [0, -2, isMobile ? 4.7 : 4], fov: 40}} gl={{ powerPreference: "high-performance", antialias: false, stencil: false, depth: false}} >
                 <Suspense fallback={null}>
-                  <Lensflarelight/>
                   <Mermaid isMobile={isMobile} currentScene={currentScene} />
                   <Bubbles color={colorTheme} shadow={"#01b7ab"} reflection={"#FFFFFF"} currentScene={currentScene}/>
                   <Swarm count={isMobile ? 250 : 500} color={"#0DA6D4"} shadow={"#01b7ab"} reflection={"#FFFFFF"} currentScene={currentScene}/>
@@ -162,7 +159,12 @@ export default function App() {
             <Text>3d artist</Text>
         </UpperLeft> : null }
     
-        <Menu>Projects Reel About Contact</Menu>
+        <Menu>
+          <div onClick={ !sceneLoading ? () => {setSceneLoading(true); console.log("CLICK, sceneLoading?", sceneLoading); currentScene == 1 ? setCurrentScene(2) : setCurrentScene(1)} : null}>Projects</div>
+          <div onClick={ !sceneLoading ? () => { !reel ? setReel(true) : setReel(false)} : null}>Reel</div> 
+          <div>About</div> 
+          <div>Contact</div>
+        </Menu>
         </>
         :
         null
