@@ -25,7 +25,7 @@ const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   padding: 150px;
-  padding-top: 200px;
+  padding-top: 240px;
   overflow-x: hidden;
   scrollbar-width: none;
   @media only screen and (max-width: 900px) {

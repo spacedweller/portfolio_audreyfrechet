@@ -81,7 +81,7 @@ const Menu = styled.div`
   color: #ADB2C1;
   font-family: 'NeueHaasDisplayBold';
   top: 50px;
-  right: 80px;
+  right: 50px;
   opacity: 80%;
   font-size: 2.4em;
   transform: skew(0deg, 0deg);
@@ -159,8 +159,8 @@ export default function App() {
             <br/>
             <Text>3d artist</Text>
         </UpperLeft> : null }
-    
-        <Menu>
+            
+        <Menu style={{display: reel ? "none" : "block"}}>
           <MenuWrap onClick={ !sceneLoading ? () => {setSceneLoading(true); console.log("CLICK, sceneLoading?", sceneLoading); currentScene == 1 ? setCurrentScene(2) : setCurrentScene(1)} : null}>
             <MenuButton style={{pointerEvents: "all"}} sceneLoading={sceneLoading} >Projects</MenuButton>
           </MenuWrap>
