@@ -147,7 +147,7 @@ export default function App() {
                   <CustomEffectsMermaid isMobile={isMobile} colorTheme={colorTheme} currentScene={currentScene}/>
                 </Suspense>
                 <Rig currentScene={currentScene} mainScene={mainScene} colorTheme={colorTheme} isMobile={isMobile}/> 
-                <OrbitControls/>              </Canvas>
+              </Canvas>
             </web.main>
 
         </RollOut> 
