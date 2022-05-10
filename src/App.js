@@ -16,6 +16,7 @@ import { useSpring, easings} from '@react-spring/core'
 
 import { a as web } from '@react-spring/web'
 import Reel from './components/Reel.js'
+import MenuButton from './components/MenuButton'
 
 
 const fadeIn = keyframes`
@@ -79,8 +80,7 @@ const Menu = styled.div`
   ${base}
   color: #ADB2C1;
   font-family: 'NeueHaasDisplayBold';
-
-  top: 30px;
+  top: 50px;
   right: 80px;
   opacity: 80%;
   font-size: 2.4em;
@@ -97,11 +97,12 @@ const Menu = styled.div`
     right: 15px;
   }
 
-
   animation: ${fadeIn} 8s linear;
 `
 
+const MenuWrap = styled.div`
 
+`
 
 export default function App() {
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
@@ -146,24 +147,32 @@ export default function App() {
                   <CustomEffectsMermaid isMobile={isMobile} colorTheme={colorTheme} currentScene={currentScene}/>
                 </Suspense>
                 <Rig currentScene={currentScene} mainScene={mainScene} colorTheme={colorTheme} isMobile={isMobile}/> 
-              </Canvas>
+                <OrbitControls/>              </Canvas>
             </web.main>
 
         </RollOut> 
         
         {canvasLoaded&&introLoaded ? 
         <>
-          { (currentScene==1 && !reel)? <UpperLeft>
+          {(currentScene==1 && !reel) ? <UpperLeft>
             AUDREY FRECHET
             <br/>
             <Text>3d artist</Text>
         </UpperLeft> : null }
     
         <Menu>
-          <div onClick={ !sceneLoading ? () => {setSceneLoading(true); console.log("CLICK, sceneLoading?", sceneLoading); currentScene == 1 ? setCurrentScene(2) : setCurrentScene(1)} : null}>Projects</div>
-          <div onClick={ !sceneLoading ? () => { !reel ? setReel(true) : setReel(false)} : null}>Reel</div> 
-          <div>About</div> 
-          <div>Contact</div>
+          <MenuWrap onClick={ !sceneLoading ? () => {setSceneLoading(true); console.log("CLICK, sceneLoading?", sceneLoading); currentScene == 1 ? setCurrentScene(2) : setCurrentScene(1)} : null}>
+            <MenuButton style={{pointerEvents: "all"}} sceneLoading={sceneLoading} >Projects</MenuButton>
+          </MenuWrap>
+          <MenuWrap onClick={ !sceneLoading ? () => { !reel ? setReel(true) : setReel(false)} : null}>
+            <MenuButton sceneLoading={sceneLoading}>Reel</MenuButton> 
+          </MenuWrap>
+          <MenuWrap>          
+            <MenuButton sceneLoading={sceneLoading}>About</MenuButton> 
+          </MenuWrap>
+          <MenuWrap>          
+            <MenuButton sceneLoading={sceneLoading}>Contact</MenuButton>
+          </MenuWrap>
         </Menu>
         </>
         :
