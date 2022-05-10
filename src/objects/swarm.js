@@ -89,6 +89,8 @@ export default function Swarm({ count, mouse, color, shadow, reflection, current
           <dodecahedronBufferGeometry attach="geometry" args={[0.2, 0]} />
           <meshPhongMaterial attach="material" color={currColor} emissive={shadow} specular={reflection} opacity={0.67} transparent />
         </a.instancedMesh>
+
+        
       </>
     )
   }
