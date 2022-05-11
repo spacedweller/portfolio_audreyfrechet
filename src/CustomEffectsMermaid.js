@@ -41,7 +41,8 @@ const CustomEffectsMermaid = ({isMobile, currentScene, colorTheme}) => {
             setTimeout(() => {setWaterActive(false)}, effectDelay-500)
             break;
         case 3:
-            alert("Scene 3 triggered!")
+            setBokehActive(false)
+            setTimeout(() => {setWaterActive(false)}, effectDelay-500)
             break;
     }
   }

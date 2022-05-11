@@ -107,22 +107,58 @@ const FullDesc = styled.div`
   }
 `
 
-export default function Projects({ currentScene }) {
+export default function Projects(props) {
     const [fullScreen, setFullScreen] = useState(false)
     const [focusedCard, setFocusedCard] = useState()
+    const [positionX, setPositionX] = useState(-2000)
     
     const [stylez, api] = useSpring(() => ({ opacity: 1 }))
 
     useEffect(() => { 
-      if (currentScene==1) {
-        api.start({ opacity: currentScene==1 ? 0 : 1, config: { mass: 1, tension: 100, friction: 100, precision: 0.01, easing: easings.easeInOutQuart}})
-      } else {
-        setTimeout(() => {api.start({ opacity: currentScene==1 ? 0 : 1, config: { mass: 1, tension: 100, friction: 100, precision: 0.05, easing: easings.easeInOutQuart}})
+      if (props.currentScene===1) {
+        api.start({ top: positionX, config: { mass: 1, tension: 100, friction: 100, precision: 0.01, easing: easings.easeInOutQuart}})
+      } else if (props.currentScene === 2) {
+        setTimeout(() => {api.start({ top: positionX, config: { mass: 1, tension: 100, friction: 100, precision: 0.05, easing: easings.easeInOutQuart}})
       }, 50)
+      } else if (props.currentScene===3) {
+        api.start({ top: positionX, config: { mass: 1, tension: 100, friction: 100, precision: 0.01, easing: easings.easeInOutQuart}})
       }
-    }, [currentScene, api])
+    }, [props.currentScene, positionX])
 
-    console.log("PROJECTS received scene", currentScene)
+    
+
+    useEffect(() => {
+      if (props.currentScene===1) {
+        setFullScreen(false)
+      }
+    }, [props.currentScene])
+
+    
+  function SetSceneOptions(scene) {
+    console.log("Projects switching to %d scene", scene)
+    switch(scene) {
+        case 1:
+            setPositionX(-1500)
+            break;
+        case 2:
+            setPositionX(0)
+            break;
+        case 3:
+            setPositionX(1500)
+            break;
+    }
+  }
+
+  useEffect(() => {
+    SetSceneOptions(props.currentScene)
+  }, [props.currentScene])
+
+    useEffect(() => {
+      props.onChange()
+      console.log("FULLSCREN TRIGGERED CHANGING MENU_______")
+    }, [fullScreen])
+
+    console.log("PROJECTS received scene", props.currentScene)
     return (
       <>  
         <ProjectGallery style={{...stylez}}>

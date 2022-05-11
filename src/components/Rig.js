@@ -12,7 +12,6 @@ export default function Rig({currentScene, colorTheme, isMobile, mainScene}) {
     const { renderer, camera, mouse } = useThree()
     const light = useRef()
     const vec = new THREE.Vector3()
-    const [Scene, setScene] = useState(1)
     const [bgActive, setBgActive] = useState(true)
     
     function SetSceneOptions(scene) {
@@ -24,7 +23,7 @@ export default function Rig({currentScene, colorTheme, isMobile, mainScene}) {
                 setTimeout(() => {setBgActive(false)}, 50)
                 break;
             case 3:
-                alert("Scene 3 triggered!")
+                setTimeout(() => {setBgActive(false)}, 50)
                 break;
         }
     }
@@ -47,7 +46,7 @@ export default function Rig({currentScene, colorTheme, isMobile, mainScene}) {
         :
         null
         }
-        <pointLight ref={light} color={"yellow"} distance={5} intensity={currentScene==1? 0.7: 0.0}/>
+        <pointLight ref={light} color={"yellow"} distance={5} intensity={currentScene===1? 0.7: 0.0}/>
         <fog attach="fog" args={isMobile? ["#5a9391", 3, 8] : ["#5a9391", 2.3, 4]} />
         <ambientLight color="#62c7e9" intensity={0.7}/>
         <pointLight position={[3, 3, -1]} distance={10} intensity={6} color="#add8e6" />

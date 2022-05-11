@@ -28,10 +28,13 @@ export default function Swarm({ count, mouse, color, shadow, reflection, current
           case 2:
               setAcceleration(500)
               setCurrColor("#F7CA18")
-              setPosition([1, -3, 0])
+              setPosition([1, -9, 0])
               break;
           case 3:
-              alert("Scene 3 triggered!")
+              console.log("Swarm scene 3 triggered")
+              setAcceleration(500)
+              setCurrColor("#F7CA18")
+              setPosition([1, -15, 0])
               break;
       }
     }
