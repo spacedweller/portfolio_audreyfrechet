@@ -10,6 +10,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, OrbitControls } from "@react-three/drei";
 import Mermaid from "./objects/mermaid";
 import Bubbles from "./objects/bubbles";
+import BubblesB from "./objects/bubblesB";
 import Swarm from "./objects/swarm";
 import CustomEffectsMermaid from "./CustomEffectsMermaid";
 import CustomEffectsFarm from "./CustomEffectsFarm.js";
@@ -82,7 +83,7 @@ const Menu = styled.div`
   ${base}
   color: #ADB2C1;
   font-family: "NeueHaasDisplayBold";
-  top: 50px;
+  top: 40px;
   right: 50px;
   opacity: 80%;
   font-size: 2.4em;
@@ -212,6 +213,7 @@ export default function App() {
                 reflection={"#FFFFFF"}
                 currentScene={currentScene}
               />
+
               <Swarm
                 count={isMobile ? 250 : 500}
                 color={"#0DA6D4"}
@@ -249,13 +251,30 @@ export default function App() {
           <Menu style={{ display: reel ? "none" : "block" }}>
             <MenuWrap
               onClick={
-                !sceneLoading
+                !sceneLoading && currentScene != 1
                   ? () => {
                       setSceneLoading(true);
                       console.log("CLICK, sceneLoading?", sceneLoading);
-                      currentScene == 1
-                        ? setCurrentScene(2)
-                        : setCurrentScene(1);
+                      setCurrentScene(1);
+                    }
+                  : null
+              }
+            >
+              <MenuButton
+                style={{ pointerEvents: "all" }}
+                sceneLoading={sceneLoading}
+              >
+                Mermaid
+              </MenuButton>
+            </MenuWrap>
+
+            <MenuWrap
+              onClick={
+                !sceneLoading && currentScene != 2
+                  ? () => {
+                      setSceneLoading(true);
+                      console.log("CLICK, sceneLoading?", sceneLoading);
+                      setCurrentScene(2);
                     }
                   : null
               }
@@ -267,6 +286,7 @@ export default function App() {
                 Projects
               </MenuButton>
             </MenuWrap>
+
             <MenuWrap
               onClick={
                 !sceneLoading
@@ -278,9 +298,10 @@ export default function App() {
             >
               <MenuButton sceneLoading={sceneLoading}>Reel</MenuButton>
             </MenuWrap>
+
             <MenuWrap
               onClick={
-                !sceneLoading
+                !sceneLoading && currentScene != 3
                   ? () => {
                       !about ? setAbout(true) : setAbout(false);
                       setCurrentScene(3);
@@ -290,6 +311,7 @@ export default function App() {
             >
               <MenuButton sceneLoading={sceneLoading}>About</MenuButton>
             </MenuWrap>
+
             <MenuWrap>
               <MenuButton sceneLoading={sceneLoading}>Contact</MenuButton>
             </MenuWrap>
